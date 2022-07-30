@@ -1,13 +1,23 @@
 # ======================Python program for creating pdf with procurement===================================
+
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+from tkinter import filedialog
 from fpdf import FPDF
 from datetime import date
 import tkinter as tk
+import PIL.Image
+from PIL import ImageTk
 from tkinter import *
+
+
 
 fdate = date.today().strftime('%d.%m.%Y')
 
-# ============================APLICATION==========================================
 
+
+
+# ============================APLICATION==========================================
 root = tk.Tk()
 
 canvas1 = tk.Canvas(root, width=1200, height=900)
@@ -35,11 +45,109 @@ canvas1.create_window(110, 80, window=label3)
 entry3 = tk.Entry(root, width=180)
 canvas1.create_window(570, 100, window=entry3)
 
+
+Title1 = tk.Label(root, text='Pierwszy Produkt:')
+Title1.config(font=('helvetica', 15))
+canvas1.create_window(600, 140, window=Title1)
+
+
+
+label4 = tk.Label(root, text='Nazwa oferty:')
+label4.config(font=('helvetica', 10))
+canvas1.create_window(65, 180, window=label4)
+entry4 = tk.Entry(root, width=70)
+canvas1.create_window(240, 200, window=entry4)
+
+label5 = tk.Label(root, text='Link:')
+label5.config(font=('helvetica', 10))
+canvas1.create_window(45, 240, window=label5)
+entry5 = tk.Entry(root, width=70)
+canvas1.create_window(240, 260, window=entry5)
+
+label6 = tk.Label(root, text='Cena:')
+label6.config(font=('helvetica', 10))
+canvas1.create_window(45, 300, window=label6)
+entry6 = tk.Entry(root, width=70)
+canvas1.create_window(240, 320, window=entry6)
+
+
+button1 = tk.Button(text='Upload File', width=20, height=2, command = lambda:upload_file())
+canvas1.create_window(800, 220, window=button1)
+
+
+
+Title2 = tk.Label(root, text='Drugi Produkt:')
+Title2.config(font=('helvetica', 15))
+canvas1.create_window(600, 460, window=Title2)
+
+
+
+label7 = tk.Label(root, text='Nazwa kontroferty:')
+label7.config(font=('helvetica', 10))
+canvas1.create_window(65, 500, window=label7)
+entry7 = tk.Entry(root, width=70)
+canvas1.create_window(240, 520, window=entry7)
+
+label8 = tk.Label(root, text='Link:')
+label8.config(font=('helvetica', 10))
+canvas1.create_window(45, 560, window=label8)
+entry8 = tk.Entry(root, width=70)
+canvas1.create_window(240, 580, window=entry8)
+
+label9 = tk.Label(root, text='Cena:')
+label9.config(font=('helvetica', 10))
+canvas1.create_window(45, 620, window=label9)
+entry9 = tk.Entry(root, width=70)
+canvas1.create_window(240, 640, window=entry9)
+
+
+button2 = tk.Button(text='Upload File', width=20, height=2, command = lambda:upload_file2())
+canvas1.create_window(800, 520, window=button2)
+
+def upload_file():
+
+    global img
+    global Pimg
+    f_types = [('Jpg Files', '*.jpg')]
+    filename = filedialog.askopenfilename(filetypes=f_types)
+    img = PIL.Image.open(filename)
+    Pimg = PIL.Image.open(filename)
+    Pimg_resized=Pimg.resize((280,200)) # new width & height
+    Pimg=ImageTk.PhotoImage(Pimg_resized)
+    picture1 = tk.Label(text='Upload File', image=Pimg)
+    canvas1.create_window(800, 280, window=picture1)
+
+def upload_file2():
+
+    global img2
+    global Pimg2
+    f_types = [('Jpg Files', '*.jpg')]
+    filename = filedialog.askopenfilename(filetypes=f_types)
+    img2 = PIL.Image.open(filename)
+    Pimg2 = PIL.Image.open(filename)
+    Pimg2_resized=Pimg2.resize((280,200)) # new width & height
+    Pimg2=ImageTk.PhotoImage(Pimg2_resized)
+    picture2 = tk.Label(text='Upload File', image=Pimg2)
+    canvas1.create_window(800, 580, window=picture2)
 canvas1.pack()
+
+
+
+
 def getSquareRoot():
     opiekun = entry1.get()
     katedra = entry2.get()
     opis = entry3.get()
+    nazwa = entry4.get()
+    link = entry5.get()
+    cena = entry6.get()
+    nazwa2 = entry7.get()
+    link2 = entry8.get()
+    cena2 = entry9.get()
+
+    img.save("img1.png","PNG")
+    img2.save("img2.png", "PNG")
+
 
     # ============================CREATE PDF==========================================
 
@@ -51,56 +159,69 @@ def getSquareRoot():
 
     # set style and size of font
     # that you want in the pdf
-    pdf.set_font("Times", size=12)
+    # pdf.set_font("Times", size=12)
+
+    pdf.add_font('DejaVu', '', 'DejaVuSans.ttf', uni=True)
+    pdf.set_font('DejaVu', '', 12)
 
     # # create a cell
-    pdf.cell(170, 10, txt="Rzeszow, dnia", ln=0, align='R')
+    pdf.cell(164, 10, txt="Rzeszów, dnia", ln=0, align='R')
     pdf.cell(0, 10, txt=fdate, ln=1, align='R')
     # # add another cell
-    pdf.set_font("Times", 'B', size=12)
-    pdf.cell(20, 10, txt="Studenckie Kolo", ln=1, align='L')
-    pdf.cell(20, 10, txt="Naukowe Lotnikow", ln=1, align='L')
+    pdf.set_font('DejaVu', size=12)
+    pdf.cell(20, 10, txt="Studenckie Koło", ln=1, align='L')
+    pdf.cell(20, 10, txt="Naukowe Lotników", ln=1, align='L')
     pdf.cell(160, 10, txt="Opiekun: ", ln=0, align='R')
     pdf.cell(0, 10, txt=opiekun, ln=1, align='R')
     pdf.cell(160, 10, txt="Katedra: ", ln=0, align='R')
     pdf.cell(0, 10, txt=katedra, ln=1, align='R')
 
-    pdf.set_font("Times", 'B', size=14)
-    pdf.cell(180, 10, txt="Zamownienie", ln=1, align='C')
+    pdf.add_font('DejaVu', 'B', 'DejaVuSans.ttf', uni=True)
+    pdf.set_font('DejaVu', 'B', size=14)
+    pdf.cell(180, 10, txt="Zamównienie", ln=1, align='C')
 
-    pdf.set_font("Times", size=12)
+    pdf.set_font('DejaVu', size=12)
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
     pdf.cell(50, 10, txt="Specyfikacja produktu (opis): ", ln=1, align='L')
     pdf.multi_cell(140, 10, txt=opis, align='J')
 
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
 
-    pdf.cell(20, 10, txt="Nazwa oferty: ......................", ln=1, align='L')
-    pdf.cell(20, 10, txt="Link: .......................", ln=1, align='L')
-    pdf.cell(20, 10, txt="Cena: .......................", ln=1, align='L')
+    pdf.cell(35, 10, txt="Nazwa oferty: ", ln=0, align='L')
+    pdf.cell(140, 10, txt=nazwa, ln=1, align='L')
+    pdf.cell(20, 10, txt="Link: ", ln=0, align='L')
+    pdf.cell(140, 10, txt=link, ln=1, align='L')
+    pdf.cell(20, 10, txt="Cena: ", ln=0, align='L')
+    pdf.cell(140, 10, txt=cena, ln=1, align='L')
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
-    pdf.cell(20, 10, txt="Zdjecia: ...................", ln=1, align='L')
+    pdf.cell(20, 10, txt="Zdjęcia: ", ln=1, align='L')
+    pdf.image('img1.png', x = None, y = None, w = 130, h = 80)
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
-
-    pdf.cell(20, 10, txt="Nazwa kontroferty: ......................", ln=1, align='L')
-    pdf.cell(20, 10, txt="Link: ......................", ln=1, align='L')
-    pdf.cell(20, 10, txt="Cena: ......................", ln=1, align='L')
-    pdf.cell(20, 10, txt=" ", ln=1, align='L')
-    pdf.cell(20, 10, txt="Zdjecia: ...................", ln=1, align='L')
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
 
-    pdf.set_font("Times", 'B', size=12)
-    pdf.cell(20, 10, txt="Ostateczny wybor oferty: ...................", ln=1, align='L')
-    pdf.set_font("Times", size=12)
-    pdf.cell(20, 10, txt="Przeznaczone srodki: ...................", ln=1, align='L')
-    pdf.cell(20, 10, txt="Zrodlo finansowania: ...................", ln=1, align='L')
+    pdf.cell(50, 10, txt="Nazwa kontroferty:", ln=0, align='L')
+    pdf.cell(140, 10, txt=nazwa2, ln=1, align='L')
+    pdf.cell(20, 10, txt="Link: ", ln=0, align='L')
+    pdf.cell(140, 10, txt=link2, ln=1, align='L')
+    pdf.cell(20, 10, txt="Cena: ", ln=0, align='L')
+    pdf.cell(140, 10, txt=cena2, ln=1, align='L')
+    pdf.cell(20, 10, txt=" ", ln=1, align='L')
+    pdf.cell(20, 10, txt="Zdjęcia: .", ln=1, align='L')
+    pdf.image('img2.png', x=None, y=None, w=130, h=80)
+    pdf.cell(20, 10, txt=" ", ln=1, align='L')
+
+    pdf.set_font('DejaVu', 'B', size=12)
+    pdf.cell(20, 10, txt="Ostateczny wybór oferty: ...................", ln=1, align='L')
+    pdf.set_font('DejaVu', size=12)
+    pdf.cell(20, 10, txt="Przeznaczone środki: ...................", ln=1, align='L')
+    pdf.cell(20, 10, txt="Źródło finansowania: ...................", ln=1, align='L')
 
     # save the pdf with name .pdf
     pdf.output("Zamównie Publiczne.pdf")
 
 
-button1 = tk.Button(text='Stwórz PDF-a', command=getSquareRoot, width=20, height=5)
-canvas1.create_window(600, 800, window=button1)
+buttonend = tk.Button(text='Stwórz PDF-a', command=getSquareRoot, width=20, height=5)
+canvas1.create_window(600, 800, window=buttonend)
 
 root.mainloop()
 
