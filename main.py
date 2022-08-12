@@ -8,6 +8,7 @@ from datetime import date
 import tkinter as tk
 import PIL.Image
 from PIL import ImageTk
+import os
 from tkinter import *
 
 
@@ -20,7 +21,7 @@ fdate = date.today().strftime('%d.%m.%Y')
 # ============================APLICATION==========================================
 root = tk.Tk()
 
-canvas1 = tk.Canvas(root, width=1200, height=900)
+canvas1 = tk.Canvas(root, width=1400, height=900)
 
 
 label1 = tk.Label(root, text='Opiekun:')
@@ -71,8 +72,9 @@ entry6 = tk.Entry(root, width=70)
 canvas1.create_window(240, 320, window=entry6)
 
 
+
 button1 = tk.Button(text='Upload File', width=20, height=2, command = lambda:upload_file())
-canvas1.create_window(800, 220, window=button1)
+canvas1.create_window(1000, 220, window=button1)
 
 
 
@@ -102,10 +104,29 @@ canvas1.create_window(240, 640, window=entry9)
 
 
 button2 = tk.Button(text='Upload File', width=20, height=2, command = lambda:upload_file2())
-canvas1.create_window(800, 520, window=button2)
+canvas1.create_window(1000, 520, window=button2)
+
+label10 = tk.Label(root, text='Ostateczny wybór oferty:')
+label10.config(font=('helvetica', 10))
+canvas1.create_window(100, 670, window=label10)
+entry10 = tk.Entry(root, width=70)
+canvas1.create_window(440, 670, window=entry10)
+
+label11 = tk.Label(root, text='Przeznaczone środki:')
+label11.config(font=('helvetica', 10))
+canvas1.create_window(100, 700, window=label11)
+entry11 = tk.Entry(root, width=70)
+canvas1.create_window(440, 700, window=entry11)
+
+label12 = tk.Label(root, text='Źródło finansowania:')
+label12.config(font=('helvetica', 10))
+canvas1.create_window(100, 730, window=label12)
+entry12 = tk.Entry(root, width=70)
+canvas1.create_window(440, 730, window=entry12)
 
 def upload_file():
-
+    if os.path.exists("img1.png"):
+        os.remove("img1.png")
     global img
     global Pimg
     f_types = [('Jpg Files', '*.jpg')]
@@ -115,10 +136,11 @@ def upload_file():
     Pimg_resized=Pimg.resize((280,200)) # new width & height
     Pimg=ImageTk.PhotoImage(Pimg_resized)
     picture1 = tk.Label(text='Upload File', image=Pimg)
-    canvas1.create_window(800, 280, window=picture1)
+    canvas1.create_window(1000, 280, window=picture1)
 
 def upload_file2():
-
+    if os.path.exists("img2.png"):
+        os.remove("img2.png")
     global img2
     global Pimg2
     f_types = [('Jpg Files', '*.jpg')]
@@ -128,7 +150,7 @@ def upload_file2():
     Pimg2_resized=Pimg2.resize((280,200)) # new width & height
     Pimg2=ImageTk.PhotoImage(Pimg2_resized)
     picture2 = tk.Label(text='Upload File', image=Pimg2)
-    canvas1.create_window(800, 580, window=picture2)
+    canvas1.create_window(1000, 580, window=picture2)
 canvas1.pack()
 
 
@@ -144,6 +166,9 @@ def getSquareRoot():
     nazwa2 = entry7.get()
     link2 = entry8.get()
     cena2 = entry9.get()
+    wybor = entry10.get()
+    srodki = entry11.get()
+    zrodlo = entry12.get()
 
     img.save("img1.png","PNG")
     img2.save("img2.png", "PNG")
@@ -211,17 +236,20 @@ def getSquareRoot():
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
 
     pdf.set_font('DejaVu', 'B', size=12)
-    pdf.cell(20, 10, txt="Ostateczny wybór oferty: ...................", ln=1, align='L')
+    pdf.cell(20, 10, txt="Ostateczny wybór oferty: ", ln=1, align='L')
+    pdf.cell(140, 10, txt=wybor, ln=1, align='L')
     pdf.set_font('DejaVu', size=12)
-    pdf.cell(20, 10, txt="Przeznaczone środki: ...................", ln=1, align='L')
-    pdf.cell(20, 10, txt="Źródło finansowania: ...................", ln=1, align='L')
+    pdf.cell(20, 10, txt="Przeznaczone środki: ", ln=1, align='L')
+    pdf.cell(140, 10, txt=srodki, ln=1, align='L')
+    pdf.cell(20, 10, txt="Źródło finansowania: ", ln=1, align='L')
+    pdf.cell(140, 10, txt=zrodlo, ln=1, align='L')
 
     # save the pdf with name .pdf
     pdf.output("Zamównie Publiczne.pdf")
 
 
-buttonend = tk.Button(text='Stwórz PDF-a', command=getSquareRoot, width=20, height=5)
-canvas1.create_window(600, 800, window=buttonend)
+buttonend = tk.Button(text='Stwórz PDF-a', command=getSquareRoot, width=20, height=2)
+canvas1.create_window(600, 780, window=buttonend)
 
 root.mainloop()
 
