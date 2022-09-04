@@ -11,14 +11,12 @@ from PIL import ImageTk
 import os
 from tkinter import *
 
-
-
 fdate = date.today().strftime('%d.%m.%Y')
 
 
 # ============================APLICATION==========================================
 root = Apka_do_zamówień.Tk()
-root.title("Aplikacja do zamównień publicznych")
+root.title("Application for public procurement")
 root.iconbitmap("favicon.ico")
 
 
@@ -64,7 +62,7 @@ canvas1.create_window(480, 100, window=entry3)
 
 Title1 = Apka_do_zamówień.Label(root, text='Pierwszy Produkt:')
 Title1.config(font=('helvetica', 15))
-canvas1.create_window(600, 140, window=Title1)
+canvas1.create_window(100, 140, window=Title1)
 
 
 
@@ -86,40 +84,49 @@ canvas1.create_window(45, 300, window=label6)
 entry6 = Apka_do_zamówień.Entry(root, width=70)
 canvas1.create_window(240, 320, window=entry6)
 
-
+add2 = Apka_do_zamówień.Label(root, text='Dodaj zdjęcie oferty:')
+add2.config(font=('helvetica', 10))
+canvas1.create_window(245, 450, window=add2)
 
 button1 = Apka_do_zamówień.Button(text='Upload File', width=20, height=2, command = lambda:upload_file())
-canvas1.create_window(1000, 220, window=button1)
+canvas1.create_window(250, 500, window=button1)
 
 
 
 Title2 = Apka_do_zamówień.Label(root, text='Drugi Produkt:')
 Title2.config(font=('helvetica', 15))
-canvas1.create_window(600, 460, window=Title2)
+canvas1.create_window(700, 140, window=Title2)
 
 
 
 label7 = Apka_do_zamówień.Label(root, text='Nazwa kontroferty:')
 label7.config(font=('helvetica', 10))
-canvas1.create_window(85, 500, window=label7)
+canvas1.create_window(685, 180, window=label7)
 entry7 = Apka_do_zamówień.Entry(root, width=70)
-canvas1.create_window(240, 520, window=entry7)
+canvas1.create_window(840, 200, window=entry7)
 
 label8 = Apka_do_zamówień.Label(root, text='Link:')
 label8.config(font=('helvetica', 10))
-canvas1.create_window(45, 560, window=label8)
+canvas1.create_window(645, 240, window=label8)
 entry8 = Apka_do_zamówień.Entry(root, width=70)
-canvas1.create_window(240, 580, window=entry8)
+canvas1.create_window(840, 260, window=entry8)
 
 label9 = Apka_do_zamówień.Label(root, text='Cena:')
 label9.config(font=('helvetica', 10))
-canvas1.create_window(45, 620, window=label9)
+canvas1.create_window(645, 300, window=label9)
 entry9 = Apka_do_zamówień.Entry(root, width=70)
-canvas1.create_window(240, 640, window=entry9)
+canvas1.create_window(840, 320, window=entry9)
 
+
+
+add2 = Apka_do_zamówień.Label(root, text='Dodaj zdjęcie kontroferty:')
+add2.config(font=('helvetica', 10))
+canvas1.create_window(900, 450, window=add2)
 
 button2 = Apka_do_zamówień.Button(text='Upload File', width=20, height=2, command = lambda:upload_file2())
-canvas1.create_window(1000, 520, window=button2)
+canvas1.create_window(900, 500, window=button2)
+
+
 
 label10 = Apka_do_zamówień.Label(root, text='Ostateczny wybór oferty:')
 label10.config(font=('helvetica', 10))
@@ -151,7 +158,7 @@ def upload_file():
     Pimg_resized=Pimg.resize((280,200)) # new width & height
     Pimg=ImageTk.PhotoImage(Pimg_resized)
     picture1 = Apka_do_zamówień.Label(text='Upload File', image=Pimg)
-    canvas1.create_window(1000, 280, window=picture1)
+    canvas1.create_window(250, 500, window=picture1)
 
 def upload_file2():
     if os.path.exists("img2.png"):
@@ -165,7 +172,7 @@ def upload_file2():
     Pimg2_resized=Pimg2.resize((280,200)) # new width & height
     Pimg2=ImageTk.PhotoImage(Pimg2_resized)
     picture2 = Apka_do_zamówień.Label(text='Upload File', image=Pimg2)
-    canvas1.create_window(1000, 580, window=picture2)
+    canvas1.create_window(850, 500, window=picture2)
 canvas1.pack()
 
 
@@ -185,11 +192,17 @@ def getSquareRoot():
     srodki = entry11.get()
     zrodlo = entry12.get()
 
+
     img.save("img1.png","PNG")
     img2.save("img2.png", "PNG")
 
 
     # ============================CREATE PDF==========================================
+
+
+
+
+
 
     # save FPDF() class into a
     # variable pdf
@@ -238,6 +251,7 @@ def getSquareRoot():
     pdf.image('img1.png', x = None, y = None, w = 130, h = 80)
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
     pdf.cell(20, 10, txt=" ", ln=1, align='L')
+    pdf.cell(20, 10, txt=" ", ln=1, align='L')
 
     pdf.cell(50, 10, txt="Nazwa kontroferty:", ln=0, align='L')
     pdf.cell(140, 10, txt=nazwa2, ln=1, align='L')
@@ -263,7 +277,7 @@ def getSquareRoot():
     pdf.output("Zamównie Publiczne.pdf")
 
 
-buttonend = Apka_do_zamówień.Button(text='Stwórz PDF-a', command=getSquareRoot, width=20, height=2)
+buttonend = Apka_do_zamówień.Button(text='Stwórz PDF-a', command=getSquareRoot, width=20, height=2, background="green")
 canvas1.create_window(600, 780, window=buttonend)
 
 root.mainloop()
